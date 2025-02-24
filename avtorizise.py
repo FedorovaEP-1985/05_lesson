@@ -21,7 +21,8 @@ try:
     time.sleep(2)
 
     # Шаг 4: Найти кнопку Login и нажать на неё
-    login_button = driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
+    login_button = driver.find_element(
+        By.CSS_SELECTOR, "button[type='submit']")
     login_button.click()
 
     # Пауза для наглядности
