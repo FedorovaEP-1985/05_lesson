@@ -1,9 +1,13 @@
 from selenium import webdriver
+from webdriver_manager.firefox import GeckoDriverManager
+from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium.webdriver.common.by import By
 import time
 
-# Инициализация драйвера (например, для Chrome)
-driver = webdriver.Chrome()
+# Инициализация драйвера для Firefox
+# с использованием webdriver_manager
+driver = webdriver.Firefox(
+    service=FirefoxService(GeckoDriverManager().install()))
 
 try:
     # Шаг 1: Открыть страницу авторизации

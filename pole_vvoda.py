@@ -1,39 +1,40 @@
 from selenium import webdriver
+from webdriver_manager.firefox import GeckoDriverManager
+from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import time
 
-# Инициализация драйвера (например, для Chrome)
-driver = webdriver.Chrome()
+# Инициализация драйвера для Firefox с использованием webdriver_manager
+browser = webdriver.Firefox(
+    service=FirefoxService(GeckoDriverManager().install()))
 
 try:
     # Шаг 1: Открыть страницу
-    driver.get("http://the-internet.herokuapp.com/inputs")
+    browser.get('http://the-internet.herokuapp.com/inputs')
 
-    # Шаг 2: Найти поле ввода и ввести текст "1000"
-    input_field = driver.find_element(By.CSS_SELECTOR, "input[type='number']")
+    # Ожидание появления поля ввода
+    input_field = WebDriverWait(browser, 10).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR,
+                                        'input[type="number"]'))
+    )
+
+    # Шаг 2: Ввести в поле текст "1000"
     input_field.send_keys("1000")
 
     # Пауза для наглядности
-    time.sleep(2)
+    time.sleep(5)
 
-    # Шаг 3: Очистить поле ввода
+    # Шаг 3: Очистить поле
     input_field.clear()
 
-    # Пауза для наглядности
-    time.sleep(2)
-
-    # Шаг 4: Ввести текст "999" в то же поле
+    # Шаг 4: Ввести в это же поле текст "999"
     input_field.send_keys("999")
 
-    # Пауза для наглядности
-    time.sleep(2)
+    # Пауза для визуальной проверки (необязательно)
+    time.sleep(5)
 
 finally:
     # Закрыть браузер
-    driver.quit()
-
-    # Пауза для наглядности
-    time.sleep(2)
-
-    # Закрыть браузер
-    driver.quit()
+    browser.quit()
